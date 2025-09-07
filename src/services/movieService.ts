@@ -1,7 +1,23 @@
-export default function fetchMovies() {
-  return fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${
-      import.meta.env.VITE_TMDB_API_KEY
-    }&language=en-US&page=1`
-  ).then((res) => res.json());
-}   
+import axios from "axios";
+import type { Movie } from "../types/movie";
+
+
+interface MoviesHttpResponse {
+  results: Movie[];
+}
+
+
+export const fetchMovies = async(query: string): Promise<Movie[]> => {
+  const response = await axios.get<MoviesHttpResponse>(
+`${import.meta.env.VITE_TMDB_BASE_URL}/search/movie`,
+    {
+      params: { query },
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
+      },
+    }
+  );;
+  return response.data.results;
+};
+
