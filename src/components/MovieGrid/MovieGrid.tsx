@@ -3,9 +3,10 @@ import type { Movie } from '../../types/movie';
 
 interface MovieGridProps {
   movies: Movie[];
+  onMovieClick: (movie: Movie) => void;
 }
 
-export default function MovieGrid({ movies }: MovieGridProps) {
+export default function MovieGrid({ movies,  onMovieClick }: MovieGridProps) {
   return (
     <div>
       <ul className={css.grid}>
@@ -17,6 +18,7 @@ export default function MovieGrid({ movies }: MovieGridProps) {
                 src={`${import.meta.env.VITE_TMDB_IMAGE_BASE_URL}${item.poster_path}`}
                 alt={item.title}
                 loading="lazy"
+                onClick={() => onMovieClick(item)}
               />
               <h2 className={css.title}>{item.title}</h2>
             </div>
